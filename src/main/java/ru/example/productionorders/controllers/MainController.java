@@ -42,32 +42,38 @@ public class MainController {
     }
 
     public void viewCustomersButtonClick() {
+        if (mainVBox.getChildren().isEmpty()) {
+            createCustomersTable();
+        }
+    }
+
+    private void createCustomersTable() {
         TableView<Customer> tableView = new TableView<>();
 
         TableColumn<Customer, Integer> idColumn = new TableColumn<>("Id");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
         TableColumn<Customer, String> nameColumn = new TableColumn<>("Name");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        /*TableColumn<Customer, String> addressColumn = new TableColumn<>("Address");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        TableColumn<Customer, String> addressColumn = new TableColumn<>("Address");
+        addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
 
         TableColumn<Customer, String> cityColumn = new TableColumn<>("City");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
+        cityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
 
         TableColumn<Customer, String> countryColumn = new TableColumn<>("Country");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
+        countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
 
         TableColumn<Customer, String> postalCodeColumn = new TableColumn<>("PostalCode");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));*/
+        postalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
 
         tableView.getColumns().add(idColumn);
         tableView.getColumns().add(nameColumn);
-        /*tableView.getColumns().add(addressColumn);
+        tableView.getColumns().add(addressColumn);
         tableView.getColumns().add(cityColumn);
         tableView.getColumns().add(countryColumn);
-        tableView.getColumns().add(postalCodeColumn);*/
+        tableView.getColumns().add(postalCodeColumn);
 
         AnnotationConfigApplicationContext context = ApplicationContextSingleton.getContext();
         Connection connection = context.getBean(ConnectionCredentials.class).getConnection();
@@ -80,7 +86,7 @@ public class MainController {
         try {
             statement = connection.createStatement();
             rs = statement.executeQuery(selectCustomers);
-            while(rs.next()) {
+            while (rs.next()) {
                 Customer customer = new Customer(Integer.parseInt(rs.getString("CustomerId")),
                         rs.getString("CustomerName"),
                         rs.getString("Address"),
