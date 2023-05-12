@@ -8,6 +8,7 @@ open module ru.example.productionorders {
     requires spring.beans;
     requires spring.core;
     requires lombok;
+    requires org.slf4j;
 
     exports ru.example.productionorders.controllers;
     exports ru.example.productionorders;
