@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="756.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.example.productionorders.controllers.MainController">
+<AnchorPane prefHeight="400.0" prefWidth="1147.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.example.productionorders.controllers.MainController">
    <Label layoutX="147.0" layoutY="14.0" text="FirstName" />
    <TextField fx:id="firstNameTextField" editable="false" layoutX="206.0" layoutY="10.0" prefHeight="26.0" prefWidth="111.0" />
    <Label layoutX="14.0" layoutY="14.0" text="EmployeeId" />
@@ -15,19 +15,14 @@
    <TextField fx:id="lastNameTextField" editable="false" layoutX="387.0" layoutY="9.0" prefHeight="26.0" prefWidth="111.0" />
    <Label layoutX="506.0" layoutY="14.0" text="BirthDate" />
    <TextField fx:id="birthTextField" editable="false" layoutX="572.0" layoutY="9.0" />
-   <Button fx:id="exitButton" layoutX="14.0" layoutY="360.0" mnemonicParsing="false" text="Exit" />
+   <Button fx:id="exitButton" onAction="#exitButtonClick" layoutX="14.0" layoutY="360.0" mnemonicParsing="false" text="Exit" />
    <VBox layoutX="14.0" layoutY="68.0" prefHeight="264.0" prefWidth="124.0" spacing="10.0">
-      <Button fx:id="viewCustomersButton" onAction="#viewCustomersButtonClick" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0"
-              text="View customers"/>
-      <Button fx:id="viewCategoriesButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="126.0"
-              text="View categories"/>
-      <Button fx:id="viewProductsButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="127.0"
-              text="View products"/>
-      <Button fx:id="viewShippersButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="134.0"
-              text="View shippers"/>
-      <Button fx:id="viewSuppliersButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="163.0"
-              text="View suppliers"/>
-      <Button fx:id="viewOrdersButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="161.0" text="View orders"/>
+      <Button fx:id="viewCustomersButton" mnemonicParsing="false" onAction="#viewCustomersButtonClick" prefHeight="35.0" prefWidth="132.0" text="View customers" />
+      <Button fx:id="viewCategoriesButton" mnemonicParsing="false" onAction="#viewCategoriesButtonClick" prefHeight="35.0" prefWidth="126.0" text="View categories" />
+      <Button fx:id="viewProductsButton" mnemonicParsing="false" onAction="#viewProductsButton" prefHeight="35.0" prefWidth="127.0" text="View products" />
+      <Button fx:id="viewShippersButton" mnemonicParsing="false" onAction="#viewShippersButton" prefHeight="35.0" prefWidth="134.0" text="View shippers" />
+      <Button fx:id="viewSuppliersButton" mnemonicParsing="false" onAction="#viewSuppliersButton" prefHeight="35.0" prefWidth="163.0" text="View suppliers" />
+      <Button fx:id="viewOrdersButton" mnemonicParsing="false" onAction="#viewOrdersButton" prefHeight="35.0" prefWidth="161.0" text="View orders" />
    </VBox>
-   <VBox fx:id="mainVBox" layoutX="151.0" layoutY="68.0" prefHeight="264.0" prefWidth="575.0" />
+   <VBox fx:id="mainVBox" layoutX="151.0" layoutY="68.0" prefHeight="264.0" prefWidth="983.0" />
 </AnchorPane>

@@ -5,12 +5,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Customer {
+public class Supplier {
 
-    private String CustomerID;
-    private String CustomerName;
+    private String SupplierID;
+    private String SupplierName;
+    private String ContactName;
     private String Address;
     private String City;
     private String Country;
+    private String Phone;
     private String PostalCode;
 }
