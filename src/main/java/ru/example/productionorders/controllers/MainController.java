@@ -1,21 +1,16 @@
 package ru.example.productionorders.controllers;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.example.productionorders.classes.*;
 import ru.example.productionorders.configuration.ApplicationContextSingleton;
+import ru.example.productionorders.serviceclasses.Cache;
 import ru.example.productionorders.serviceclasses.ConnectionCredentials;
+import ru.example.productionorders.serviceclasses.WindowSwitcher;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -24,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+@Slf4j
 public class MainController {
 
     public TextField firstNameTextField;
@@ -38,6 +34,7 @@ public class MainController {
     public Button viewSuppliersButton;
     public Button viewOrdersButton;
     public VBox mainVBox;
+    public VBox toolVBox;
 
     public void initialize() {
         AnnotationConfigApplicationContext context = ApplicationContextSingleton.getContext();
@@ -49,7 +46,7 @@ public class MainController {
     }
 
     public void exitButtonClick() {
-        closeWindow(exitButton);
+        WindowSwitcher.closeWindow(exitButton, "/ru/example/productionorders/registration.fxml");
     }
 
     public void viewCustomersButtonClick() {
@@ -65,11 +62,13 @@ public class MainController {
     public void viewProductsButton() {
         mainVBox.getChildren().clear();
         createTable(Product.class);
+        configureProductClick();
     }
 
     public void viewOrdersButton() {
         mainVBox.getChildren().clear();
         createTable(Order.class);
+        createTable(OrderDetail.class);
     }
 
     public void viewShippersButton() {
@@ -82,7 +81,48 @@ public class MainController {
         createTable(Supplier.class);
     }
 
+    private void configureProductClick() {
+        AnnotationConfigApplicationContext context = ApplicationContextSingleton.getContext();
+        Cache cache = context.getBean(Cache.class);
+        Label productNameLabel = new Label("Enter product name: ");
+        TextField productNameField = new TextField();
+        ComboBox<String> supplierChoice = new ComboBox<>();
+        supplierChoice.setPromptText("Choose supplier");
+        for(Supplier supplier : cache.getSupplierList()) {
+            supplierChoice.getItems().add(supplier.getSupplierName());
+        }
+        ComboBox<String> categoryChoice = new ComboBox<>();
+        categoryChoice.setPromptText("Choose category");
+        for(Categorie categorie : cache.getCategorieList()) {
+            categoryChoice.getItems().add(categorie.getCategoryName());
+        }
+        Label unitNameLabel = new Label("Enter unit: ");
+        TextField unitNameField = new TextField();
+        Label priceNameLabel = new Label("Enter price: ");
+        TextField priceNameField = new TextField();
+        Button button = new Button("Add product");
+        VBox vBox = new VBox();
+        vBox.setSpacing(10);
+        vBox.getChildren().addAll(productNameLabel, productNameField,
+                supplierChoice,
+                categoryChoice,
+                unitNameLabel, unitNameField,
+                priceNameLabel, priceNameField,
+                button);
+        toolVBox.getChildren().add(vBox);
+    }
+
     private <T> void createTable(Class<T> currentClass) {
+        AnnotationConfigApplicationContext context = ApplicationContextSingleton.getContext();
+        String selectQuery = "select * from \"" + currentClass.getSimpleName() + "s\";";
+        if(currentClass.getSimpleName().equals("Order")) {
+            selectQuery = "select * from \"Orders\" o join \"OrderDetails\" od " +
+                    "on o.\"OrderID\" = od.\"OrderID\" where \"EmployeeID\" = " + context.getBean(Employee.class).getEmployeeId() + ";";
+        }
+        if(currentClass.getSimpleName().equals("OrderDetail")) {
+            selectQuery = "select \"OrderDetailsID\", od.\"OrderID\", \"ProductID\", \"Quantity\" from \"Orders\" o join \"OrderDetails\" od " +
+                    "on o.\"OrderID\" = od.\"OrderID\" where \"EmployeeID\" = " + context.getBean(Employee.class).getEmployeeId() + ";";
+        }
         Field[] fields = currentClass.getDeclaredFields();
         ArrayList<String> fieldsName = new ArrayList<>();
         for(Field field : fields) {
@@ -94,13 +134,13 @@ public class MainController {
             newColumn.setCellValueFactory(new PropertyValueFactory<>(fieldName));
             tableView.getColumns().add(newColumn);
         }
-        String selectQuery = "select * from \"" + currentClass.getSimpleName() + "s\";";
 
-        AnnotationConfigApplicationContext context = ApplicationContextSingleton.getContext();
         Connection connection = context.getBean(ConnectionCredentials.class).getConnection();
 
         Statement statement;
         ResultSet rs;
+
+        int effectedRows = 0;
 
         try {
             statement = connection.createStatement();
@@ -113,31 +153,13 @@ public class MainController {
                     field.set(item, rs.getString(i + 1));
                 }
                 tableView.getItems().add(item);
+                effectedRows++;
             }
         } catch (SQLException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchFieldException e) {
-           e.printStackTrace();
+           log.error("Creating table failure!", e);
         }
+        Label labelInfoRows = new Label("Effected rows: " + effectedRows);
         mainVBox.getChildren().add(tableView);
-    }
-
-    private void closeWindow(Button button) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("registration.fxml"));
-        LoaderFxml(loader);
-        Stage stagePrev = (Stage) button.getScene().getWindow();
-        stagePrev.hide();
-    }
-
-    private void LoaderFxml(FXMLLoader loader) {
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Parent root = loader.getRoot();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Main page");
-        stage.show();
+        mainVBox.getChildren().add(labelInfoRows);
     }
 }

@@ -15,4 +15,17 @@ public class Supplier {
     private String Country;
     private String Phone;
     private String PostalCode;
+
+    public Supplier(){}
+
+    public Supplier(String supplierID, String supplierName, String contactName, String address, String city, String country, String phone, String postalCode) {
+        SupplierID = supplierID;
+        SupplierName = supplierName;
+        ContactName = contactName;
+        Address = address;
+        City = city;
+        Country = country;
+        Phone = phone;
+        PostalCode = postalCode;
+    }
 }

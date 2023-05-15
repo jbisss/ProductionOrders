@@ -1,20 +1,16 @@
 package ru.example.productionorders.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import ru.example.productionorders.classes.Employee;
 import ru.example.productionorders.configuration.ApplicationContextSingleton;
 import ru.example.productionorders.serviceclasses.ConnectionCredentials;
+import ru.example.productionorders.serviceclasses.WindowSwitcher;
 
-import java.io.IOException;
 import java.sql.*;
 
 @Controller
@@ -46,7 +42,7 @@ public class RegistrationController {
                     currentEmployee.setLastName(rs.getString("LastName"));
                     currentEmployee.setBirthDate(rs.getString("BirthDate"));
                     currentEmployee.setNotes(rs.getString("Notes"));
-                    closeWindow(enterButton);
+                    WindowSwitcher.closeWindow(enterButton, "/ru/example/productionorders/controllers/main.fxml");
                 } else {
                     log.warn("Invalid password!");
                 }
@@ -54,26 +50,5 @@ public class RegistrationController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    private void closeWindow(Button button) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("main.fxml"));
-        LoaderFxml(loader);
-        Stage stagePrev = (Stage) button.getScene().getWindow();
-        stagePrev.hide();
-    }
-
-    private void LoaderFxml(FXMLLoader loader) {
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Parent root = loader.getRoot();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Main page");
-        stage.show();
     }
 }

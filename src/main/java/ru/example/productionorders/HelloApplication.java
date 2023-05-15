@@ -4,6 +4,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import ru.example.productionorders.configuration.ApplicationContextSingleton;
+import ru.example.productionorders.serviceclasses.Cache;
 
 import java.io.IOException;
 
@@ -15,6 +18,8 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Registration");
         stage.setScene(scene);
+        AnnotationConfigApplicationContext context = ApplicationContextSingleton.getContext();
+        context.getBean(Cache.class).initCache();
         stage.show();
     }
 
