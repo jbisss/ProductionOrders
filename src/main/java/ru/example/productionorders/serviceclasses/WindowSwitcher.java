@@ -26,7 +26,9 @@ public class WindowSwitcher {
         }
         Parent root = loader.getRoot();
         Stage stage = new Stage();
-        stage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("/ru/example/productionorders/simple.css");
+        stage.setScene(scene);
         stage.setTitle("Main page");
         stage.show();
     }

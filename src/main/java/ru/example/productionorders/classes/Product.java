@@ -2,9 +2,11 @@ package ru.example.productionorders.classes;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class Product {
 
     private String ProductId;

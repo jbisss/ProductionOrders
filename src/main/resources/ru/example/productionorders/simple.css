@@ -1,0 +1,37 @@
+.vbox-style {
+    -fx-border-color: #81C;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-background-color: #FFC0CB;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px;
+}
+
+.button-style {
+    -fx-background-color: #81C; /* Цвет фона кнопки */
+    -fx-text-fill: white; /* Цвет текста кнопки */
+    -fx-font-size: 14px; /* Размер шрифта кнопки */
+    -fx-padding: 8px 16px; /* Внутренний отступ кнопки */
+    -fx-background-radius: 20px; /* Радиус скругления углов кнопки */
+
+    -fx-effect: dropshadow(three-pass-box, grey, 10, 0, 0, 15);
+    -fx-background-insets: 0, 1; /* Отступы фона кнопки */
+    -fx-background: linear-gradient(#81C, #4CA); /* Градиентный фон кнопки */
+}
+
+.button-style:hover {
+    -fx-background-color: #81C4; /* Цвет фона кнопки при наведении */
+}
+
+.button-style:pressed {
+    -fx-background-color: #81C2; /* Цвет фона кнопки при нажатии */
+}
+
+.root {
+    -fx-background-color: radial-gradient(radius 100%, #CD5C5C, #FFD700); /* Нелинейный градиентный фон */
+}
+
+/* Стиль для заголовков столбцов */
+.table-view .column-header .label {
+    -fx-text-fill: #CD5C5C; /* Цвет текста заголовков */
+}
