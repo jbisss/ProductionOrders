@@ -23,6 +23,7 @@ public class Cache {
     private Map<String, Categorie> categorieMap = new HashMap<>();
     private Integer productMaxId;
     private Integer shipperMaxId;
+    private Integer categoryMaxId;
 
     public void initCache() {
         AnnotationConfigApplicationContext context = ApplicationContextSingleton.getContext();
@@ -31,5 +32,6 @@ public class Cache {
         categorieMap = cacheRepository.getCategories();
         productMaxId = cacheRepository.getMaxProductId();
         shipperMaxId = cacheRepository.getMaxShipperId();
+        categoryMaxId = cacheRepository.getMaxCategoryId();
     }
 }

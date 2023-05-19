@@ -45,6 +45,11 @@ public class MainController {
     public Label employeeIdLabel;
     public Label lastNameLabel;
     public Label birthDateLabel;
+    public AnchorPane anchorInfo;
+    public AnchorPane anchorButtons;
+    public AnchorPane anchorTable;
+    public AnchorPane anchorAdd;
+    public AnchorPane anchorDelete;
     private AnnotationConfigApplicationContext context;
     private Connection connection;
 
@@ -62,10 +67,16 @@ public class MainController {
     private void setStyles() {
         String vBoxStyleClass = "vbox-style";
         String rootStyleClass = "root";
+        String anchorStyleClass = "anchor-style";
         root.getStyleClass().add(rootStyleClass);
         mainVBox.getStyleClass().add(vBoxStyleClass);
         toolVBox.getStyleClass().add(vBoxStyleClass);
         buttonsVBox.getStyleClass().add(vBoxStyleClass);
+        anchorAdd.getStyleClass().add(anchorStyleClass);
+        anchorButtons.getStyleClass().add(anchorStyleClass);
+        anchorTable.getStyleClass().add(anchorStyleClass);
+        anchorInfo.getStyleClass().add(anchorStyleClass);
+        anchorDelete.getStyleClass().add(anchorStyleClass);
     }
 
     public void exitButtonClick() {
@@ -82,6 +93,7 @@ public class MainController {
         mainVBox.getChildren().clear();
         toolVBox.getChildren().clear();
         createTable(Categorie.class);
+        // configuring button click
         configureCategoryClick();
     }
 
@@ -89,6 +101,7 @@ public class MainController {
         mainVBox.getChildren().clear();
         toolVBox.getChildren().clear();
         createTable(Product.class);
+        // configuring button click
         configureProductClick();
     }
 
@@ -103,6 +116,7 @@ public class MainController {
         mainVBox.getChildren().clear();
         toolVBox.getChildren().clear();
         createTable(Shipper.class);
+        // configuring button click
         configureShipperClick();
     }
 
@@ -110,6 +124,7 @@ public class MainController {
         mainVBox.getChildren().clear();
         toolVBox.getChildren().clear();
         createTable(Supplier.class);
+        // configuring button click
         configureSupplierClick();
     }
 
@@ -156,12 +171,26 @@ public class MainController {
         Button buttonAddCategory = new Button("Add category");
         // --- Add category button EVENT
         EventHandler<ActionEvent> buttonAddCategoryClick = actionEvent -> {
-
+            Categorie transferCategory = (Categorie) context.getBean("transferCategory");
+            if (!textFieldCategoryName.getText().matches("[A-Z][a-z]+(/ )*[A-Z]*[a-z]*")) {
+                log.warn("Invalid category name");
+                return;
+            }
+            transferCategory.setCategoryID(String.valueOf(context.getBean(Cache.class).getCategoryMaxId() + 1));
+            transferCategory.setCategoryName(textFieldCategoryName.getText());
+            transferCategory.setDescription(textAreaCategoryDescription.getText());
+            context.getBean(ControllerRepository.class).addCategoryToDb();
+            context.getBean(Cache.class).setCategoryMaxId(Integer.valueOf(transferCategory.getCategoryID()));
+            mainVBox.getChildren().clear();
+            createTable(Categorie.class);
         };
         buttonAddCategory.setOnAction(buttonAddCategoryClick);
         // --- Add category button EVENT
-
-        toolVBox.getChildren().addAll(labelCategoryName, textFieldCategoryName, labelCategoryDescription, textAreaCategoryDescription, buttonAddCategory);
+        Label labelCategoryId = new Label("Enter category id to delete:");
+        TextField textFieldCategoryIdToDelete  = new TextField();
+        Button buttonDeleteCategory = new Button("Delete");
+        toolVBox.getChildren().addAll(labelCategoryName, textFieldCategoryName, labelCategoryDescription,
+                textAreaCategoryDescription, buttonAddCategory, labelCategoryId, textFieldCategoryIdToDelete, buttonDeleteCategory);
     }
 
     private void configureProductClick() {
@@ -228,7 +257,26 @@ public class MainController {
         };
         button.setOnAction(addProductButtonClick);
         // --- Add product button EVENT
-        
+
+        Label labelProductId = new Label("Enter product id to delete:");
+        TextField textFieldProductId = new TextField();
+
+        Button buttonProductDelete = new Button("Delete product");
+        // --- Delete product button EVENT
+        EventHandler<ActionEvent> buttonProductDeleteClick = actionEvent -> {
+            int id = 0;
+            try {
+                id = Integer.parseInt(textFieldProductId.getText());
+            } catch (Exception e) {
+                log.error("Invalid input format!");
+            }
+            context.getBean(ControllerRepository.class).deleteProductFromDb(id);
+            mainVBox.getChildren().clear();
+            createTable(Product.class);
+        };
+        buttonProductDelete.setOnAction(buttonProductDeleteClick);
+        // --- Delete product button EVENT
+
         VBox vBox = new VBox();
         vBox.setSpacing(10);
         vBox.getChildren().addAll(productNameLabel, productNameField,
@@ -236,7 +284,9 @@ public class MainController {
                 categoryChoice,
                 unitNameLabel, unitNameField,
                 priceNameLabel, priceNameField,
-                button);
+                button,
+                labelProductId, textFieldProductId,
+                buttonProductDelete);
         toolVBox.getChildren().add(vBox);
     }
 
@@ -281,7 +331,15 @@ public class MainController {
         Button buttonDeleteShipper = new Button("Delete shipper");
         // --- Delete shipper button EVENT
         EventHandler<ActionEvent> buttonDeleteShipperClick = actionEvent -> {
-
+            int id = 0;
+            try {
+                id = Integer.parseInt(textFieldShipperIdDelete.getText());
+            } catch (Exception e) {
+                log.error("Invalid input format!");
+            }
+            context.getBean(ControllerRepository.class).deleteShipperFromDb(id);
+            mainVBox.getChildren().clear();
+            createTable(Shipper.class);
         };
         buttonDeleteShipper.setOnAction(buttonDeleteShipperClick);
         // --- Delete shipper button EVENT

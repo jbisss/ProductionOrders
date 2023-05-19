@@ -85,3 +85,9 @@
     -fx-border-radius: 5px;
     -fx-background-radius: 7px;
 }
+
+.anchor-style {
+    -fx-background-color: linear-gradient(#3CB371, #4682B4); /* Нелинейный градиентный фон */
+    -fx-border-width: 2px;
+    -fx-border-color: black;
+}

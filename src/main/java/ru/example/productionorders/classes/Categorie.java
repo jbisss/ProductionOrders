@@ -18,4 +18,13 @@ public class Categorie {
         CategoryName = categoryName;
         Description = description;
     }
+
+    @Override
+    public String toString() {
+        return "(" +
+                CategoryID + ", " +
+                "'" + CategoryName + "', " +
+                "'" + Description + "'" +
+                ")";
+    }
 }

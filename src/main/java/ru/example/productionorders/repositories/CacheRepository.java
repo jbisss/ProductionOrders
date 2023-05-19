@@ -101,4 +101,21 @@ public class CacheRepository {
         }
         return result;
     }
+
+    public int getMaxCategoryId() {
+        int result = 0;
+        String queryMaxCategoryId = "select max(\"CategoryID\") from \"Categories\";";
+        Statement statement;
+        ResultSet rs;
+        try {
+            statement = connection.createStatement();
+            rs = statement.executeQuery(queryMaxCategoryId);
+            rs.next();
+            result = rs.getInt(1);
+            log.info("Category maxId = {} successfully cached!", result);
+        } catch (SQLException e) {
+            log.error("Cache creation failure!", e);
+        }
+        return result;
+    }
 }
