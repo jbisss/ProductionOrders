@@ -1,37 +1,87 @@
 .vbox-style {
-    -fx-border-color: #81C;
-    -fx-border-width: 1px;
+    -fx-border-color: #00BFFF;
+    -fx-border-width: 3px;
     -fx-border-radius: 10px;
-    -fx-background-color: #FFC0CB;
+    -fx-background-color: #FFA07A;
     -fx-background-radius: 10px;
     -fx-padding: 10px;
 }
 
-.button-style {
-    -fx-background-color: #81C; /* Цвет фона кнопки */
+.button {
+    -fx-font-family: "Book Antiqua";
     -fx-text-fill: white; /* Цвет текста кнопки */
     -fx-font-size: 14px; /* Размер шрифта кнопки */
     -fx-padding: 8px 16px; /* Внутренний отступ кнопки */
     -fx-background-radius: 20px; /* Радиус скругления углов кнопки */
-
-    -fx-effect: dropshadow(three-pass-box, grey, 10, 0, 0, 15);
+    -fx-effect: dropshadow(three-pass-box, grey, 5, 0, 0, 10);
     -fx-background-insets: 0, 1; /* Отступы фона кнопки */
-    -fx-background: linear-gradient(#81C, #4CA); /* Градиентный фон кнопки */
+    -fx-background-color: radial-gradient(radius 100%, #6A5ACD, #2E8B57); /* Градиентный фон кнопки */
 }
 
-.button-style:hover {
-    -fx-background-color: #81C4; /* Цвет фона кнопки при наведении */
+.button:hover {
+    -fx-background-color: radial-gradient(radius 100%, #4B0082, #008000); /* Цвет фона кнопки при наведении */
 }
 
-.button-style:pressed {
-    -fx-background-color: #81C2; /* Цвет фона кнопки при нажатии */
+.button:pressed {
+    -fx-background-color: radial-gradient(radius 100%, #000000, #006400); /* Цвет фона кнопки при нажатии */
 }
 
 .root {
-    -fx-background-color: radial-gradient(radius 100%, #CD5C5C, #FFD700); /* Нелинейный градиентный фон */
+    -fx-background-color: radial-gradient(radius 100%, #4682B4, #3CB371); /* Нелинейный градиентный фон */
 }
 
 /* Стиль для заголовков столбцов */
 .table-view .column-header .label {
-    -fx-text-fill: #CD5C5C; /* Цвет текста заголовков */
+    /*-fx-text-fill: #CD5C5C; /* Цвет текста заголовков */
+}
+
+.table-view {
+    -fx-font-family: "Book Antiqua";
+}
+
+.label {
+    -fx-padding: 2px;
+    -fx-font-family: "Book Antiqua";
+    -fx-text-fill: white;
+    -fx-background-color: #008000;
+    -fx-background-radius: 7px;
+}
+
+.combo-box {
+    -fx-prompt-text-fill: white;
+    -fx-font-family: "Book Antiqua";
+    -fx-text-fill: white; /* Цвет текста кнопки */
+    -fx-font-size: 10px; /* Размер шрифта кнопки */
+    -fx-padding: 8px 16px; /* Внутренний отступ кнопки */
+    -fx-background-radius: 20px; /* Радиус скругления углов кнопки */
+    -fx-background-insets: 0, 1; /* Отступы фона кнопки */
+    -fx-background-color: radial-gradient(radius 100%, #6A5ACD, #2E8B57); /* Градиентный фон кнопки */
+}
+
+.combo-box:pressed {
+    -fx-background-color: radial-gradient(radius 100%, #000000, #006400); /* Цвет фона кнопки при нажатии */
+}
+
+.combo-box:hover {
+    -fx-background-color: radial-gradient(radius 100%, #4B0082, #008000); /* Цвет фона кнопки при наведении */
+}
+
+.text-field {
+    -fx-font-family: "Book Antiqua";
+    -fx-text-fill: white;
+    -fx-background-color: #006400;
+    -fx-border-color: #00BFFF;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 7px;
+}
+
+.text-area {
+    -fx-font-family: "Book Antiqua";
+    -fx-text-fill: black;
+    -fx-background-color: #006400;
+    -fx-border-color: #00BFFF;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 7px;
 }

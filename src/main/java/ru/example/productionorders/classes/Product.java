@@ -2,11 +2,9 @@ package ru.example.productionorders.classes;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 public class Product {
 
     private String ProductId;
@@ -15,4 +13,16 @@ public class Product {
     private String CategoryID;
     private String Unit;
     private String Price;
+
+    @Override
+    public String toString() {
+        return "(" +
+                ProductId + ", " +
+                "'" + ProductName + "', " +
+                SupplierID + ", " +
+                CategoryID + ", " +
+                "'" + Unit + "'," +
+                Price +
+                ")";
+    }
 }

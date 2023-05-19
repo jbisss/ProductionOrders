@@ -35,7 +35,6 @@ public class RegistrationController {
                 log.warn("There is no such an employee!!!");
             } else {
                 if (password.equals(rs.getString("LastName"))) {
-                    log.info("Success!!!");
                     Employee currentEmployee = context.getBean(Employee.class);
                     currentEmployee.setEmployeeId(Integer.parseInt(rs.getString("EmployeeId")));
                     currentEmployee.setFirstName(rs.getString("FirstName"));
@@ -43,6 +42,7 @@ public class RegistrationController {
                     currentEmployee.setBirthDate(rs.getString("BirthDate"));
                     currentEmployee.setNotes(rs.getString("Notes"));
                     WindowSwitcher.closeWindow(enterButton, "/ru/example/productionorders/controllers/main.fxml");
+                    log.info("Success registration!!!");
                 } else {
                     log.warn("Invalid password!");
                 }

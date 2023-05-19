@@ -10,4 +10,13 @@ public class Shipper {
     private String ShipperID;
     private String ShipperName;
     private String Phone;
+
+    @Override
+    public String toString() {
+        return "(" +
+                ShipperID + ", " +
+                "'" + ShipperName + "', " +
+                "'" + Phone + "'" +
+                ")";
+    }
 }

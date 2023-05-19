@@ -7,13 +7,13 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="root" prefHeight="505.0" prefWidth="1210.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.example.productionorders.controllers.MainController">
-   <Label layoutX="363.0" layoutY="23.0" text="FirstName" />
+   <Label fx:id="firstNameLabel" layoutX="363.0" layoutY="23.0" text="FirstName" />
    <TextField fx:id="firstNameTextField" editable="false" layoutX="422.0" layoutY="19.0" prefHeight="26.0" prefWidth="111.0" />
-   <Label layoutX="230.0" layoutY="23.0" text="EmployeeId" />
+   <Label fx:id="employeeIdLabel" layoutX="230.0" layoutY="23.0" text="EmployeeId" />
    <TextField fx:id="idText" editable="false" layoutX="301.0" layoutY="19.0" prefHeight="26.0" prefWidth="54.0" />
-   <Label layoutX="543.0" layoutY="22.0" text="LastName" />
+   <Label fx:id="lastNameLabel" layoutX="543.0" layoutY="22.0" text="LastName" />
    <TextField fx:id="lastNameTextField" editable="false" layoutX="603.0" layoutY="18.0" prefHeight="26.0" prefWidth="146.0" />
-   <Label layoutX="757.0" layoutY="23.0" text="BirthDate" />
+   <Label fx:id="birthDateLabel" layoutX="757.0" layoutY="23.0" text="BirthDate" />
    <TextField fx:id="birthTextField" editable="false" layoutX="819.0" layoutY="19.0" />
    <Button fx:id="exitButton" layoutX="20.0" layoutY="460.0" mnemonicParsing="false" onAction="#exitButtonClick" text="Exit" />
    <VBox fx:id="buttonsVBox" layoutX="14.0" layoutY="68.0" prefHeight="379.0" prefWidth="195.0" spacing="25.0">
