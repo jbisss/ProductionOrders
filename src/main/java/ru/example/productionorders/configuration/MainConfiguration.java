@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import ru.example.productionorders.classes.Categorie;
 import ru.example.productionorders.classes.Product;
 import ru.example.productionorders.classes.Shipper;
+import ru.example.productionorders.classes.Supplier;
 
 @Configuration
 @ComponentScan(basePackages = {"ru.example.productionorders"})
@@ -24,5 +25,10 @@ public class MainConfiguration {
     @Bean
     public Categorie transferCategory(){
         return new Categorie();
+    }
+
+    @Bean
+    public Supplier transferSupplier() {
+        return new Supplier();
     }
 }

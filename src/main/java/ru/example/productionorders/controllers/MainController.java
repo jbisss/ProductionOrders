@@ -1,5 +1,6 @@
 package ru.example.productionorders.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
@@ -22,6 +23,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Slf4j
 public class MainController {
@@ -50,6 +53,7 @@ public class MainController {
     public AnchorPane anchorTable;
     public AnchorPane anchorAdd;
     public AnchorPane anchorDelete;
+    public Label labelTest;
     private AnnotationConfigApplicationContext context;
     private Connection connection;
 
@@ -62,6 +66,16 @@ public class MainController {
         firstNameTextField.setText(currentEmployee.getFirstName());
         lastNameTextField.setText(currentEmployee.getLastName());
         birthTextField.setText(currentEmployee.getBirthDate());
+
+        Timer timer = new Timer();
+        final int[] i = {0};
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> labelTest.setText("Hi " + i[0]));
+                i[0]++;
+            }
+        }, 0, 10000);
     }
 
     private void setStyles() {
@@ -147,10 +161,27 @@ public class MainController {
         Button buttonAddSupplier = new Button("Add supplier");
         // --- Add supplier button EVENT
         EventHandler<ActionEvent> buttonAddSupplierClick = actionEvent -> {
-
+            if (!textFieldSupplierName.getText().matches("[A-Z][a-z]+ [A-Z]*[a-z]*")) {
+                log.warn("Invalid supplier name");
+                return;
+            }
+            Supplier transferSupplier = (Supplier) context.getBean("transferSupplier");
+            transferSupplier.setSupplierID(String.valueOf(context.getBean(Cache.class).getSupplierMaxId() + 1));
+            transferSupplier.setSupplierName(textFieldSupplierName.getText());
+            transferSupplier.setContactName(textFieldContactName.getText());
+            transferSupplier.setAddress(textFieldAddress.getText());
+            transferSupplier.setCity(textFieldCity.getText());
+            transferSupplier.setCountry(textFieldCountry.getText());
+            transferSupplier.setPhone(textFieldPhone.getText());
+            transferSupplier.setPostalCode(textFieldPostalCode.getText());
+            context.getBean(ControllerRepository.class).addSupplierToDb();
+            context.getBean(Cache.class).setSupplierMaxId(Integer.valueOf(transferSupplier.getSupplierID()));
+            mainVBox.getChildren().clear();
+            createTable(Supplier.class);
         };
         buttonAddSupplier.setOnAction(buttonAddSupplierClick);
-        // --- Add category button EVENT
+        // --- Add supplier button EVENT
+
         toolVBox.getChildren().addAll();
         ScrollPane scrollPane = new ScrollPane();
         VBox vBox = new VBox();
@@ -168,8 +199,8 @@ public class MainController {
         Label labelCategoryDescription = new Label("Enter category description");
         TextArea textAreaCategoryDescription = new TextArea();
 
-        Button buttonAddCategory = new Button("Add category");
         // --- Add category button EVENT
+        Button buttonAddCategory = new Button("Add category");
         EventHandler<ActionEvent> buttonAddCategoryClick = actionEvent -> {
             Categorie transferCategory = (Categorie) context.getBean("transferCategory");
             if (!textFieldCategoryName.getText().matches("[A-Z][a-z]+(/ )*[A-Z]*[a-z]*")) {
@@ -186,9 +217,27 @@ public class MainController {
         };
         buttonAddCategory.setOnAction(buttonAddCategoryClick);
         // --- Add category button EVENT
+
         Label labelCategoryId = new Label("Enter category id to delete:");
         TextField textFieldCategoryIdToDelete  = new TextField();
+
+        // --- Delete category button EVENT
         Button buttonDeleteCategory = new Button("Delete");
+        EventHandler<ActionEvent> buttonDeleteCategoryClick = actionEvent -> {
+            int id = 0;
+            try {
+                id = Integer.parseInt(textFieldCategoryIdToDelete.getText());
+            } catch (Exception e) {
+                log.error("Invalid input format!");
+            }
+            context.getBean(ControllerRepository.class).deleteCategoryFromDb(id);
+            mainVBox.getChildren().clear();
+            textFieldCategoryIdToDelete.clear();
+            createTable(Categorie.class);
+        };
+        buttonDeleteCategory.setOnAction(buttonDeleteCategoryClick);
+        // --- Delete category button EVENT
+
         toolVBox.getChildren().addAll(labelCategoryName, textFieldCategoryName, labelCategoryDescription,
                 textAreaCategoryDescription, buttonAddCategory, labelCategoryId, textFieldCategoryIdToDelete, buttonDeleteCategory);
     }
@@ -213,9 +262,9 @@ public class MainController {
         TextField unitNameField = new TextField();
         Label priceNameLabel = new Label("Enter price: ");
         TextField priceNameField = new TextField();
-        
-        Button button = new Button("Add product");
+
         // --- Add product button EVENT
+        Button button = new Button("Add product");
         EventHandler<ActionEvent> addProductButtonClick = actionEvent -> {
             if (productNameField.getText().isEmpty()) {
                 log.error("Product name is empty!");
@@ -261,8 +310,8 @@ public class MainController {
         Label labelProductId = new Label("Enter product id to delete:");
         TextField textFieldProductId = new TextField();
 
-        Button buttonProductDelete = new Button("Delete product");
         // --- Delete product button EVENT
+        Button buttonProductDelete = new Button("Delete product");
         EventHandler<ActionEvent> buttonProductDeleteClick = actionEvent -> {
             int id = 0;
             try {
@@ -272,6 +321,7 @@ public class MainController {
             }
             context.getBean(ControllerRepository.class).deleteProductFromDb(id);
             mainVBox.getChildren().clear();
+            textFieldProductId.clear();
             createTable(Product.class);
         };
         buttonProductDelete.setOnAction(buttonProductDeleteClick);
@@ -296,8 +346,8 @@ public class MainController {
         Label labelShipperPhone = new Label("Enter shipper phone to add:");
         TextField textFieldShipperPhone = new TextField();
 
-        Button buttonAddShipper = new Button("Add shipper");
         // --- Add shipper button EVENT
+        Button buttonAddShipper = new Button("Add shipper");
         EventHandler<ActionEvent> buttonAddShipperClick = actionEvent -> {
             String shipperName = textFieldShipperName.getText();
             String shipperPhone = textFieldShipperPhone.getText();
@@ -328,8 +378,8 @@ public class MainController {
         Label labelShipperIdDelete = new Label("Enter shipper id to delete:");
         TextField textFieldShipperIdDelete = new TextField();
 
-        Button buttonDeleteShipper = new Button("Delete shipper");
         // --- Delete shipper button EVENT
+        Button buttonDeleteShipper = new Button("Delete shipper");
         EventHandler<ActionEvent> buttonDeleteShipperClick = actionEvent -> {
             int id = 0;
             try {

@@ -118,4 +118,21 @@ public class CacheRepository {
         }
         return result;
     }
+
+    public int getMaxSupplierId() {
+        int result = 0;
+        String queryMaxCategoryId = "select max(\"SupplierID\") from \"Suppliers\";";
+        Statement statement;
+        ResultSet rs;
+        try {
+            statement = connection.createStatement();
+            rs = statement.executeQuery(queryMaxCategoryId);
+            rs.next();
+            result = rs.getInt(1);
+            log.info("Supplier maxId = {} successfully cached!", result);
+        } catch (SQLException e) {
+            log.error("Cache creation failure!", e);
+        }
+        return result;
+    }
 }

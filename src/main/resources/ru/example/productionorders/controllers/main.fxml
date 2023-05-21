@@ -8,54 +8,39 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="root" prefHeight="744.0" prefWidth="1391.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.example.productionorders.controllers.MainController">
-    <SplitPane dividerPositions="0.12049180327868851" layoutX="5.0" layoutY="7.0" orientation="VERTICAL"
-               prefHeight="733.0" prefWidth="1378.0">
+    <SplitPane dividerPositions="0.12049180327868851" layoutX="5.0" layoutY="7.0" orientation="VERTICAL" prefHeight="733.0" prefWidth="1378.0">
         <AnchorPane fx:id="anchorInfo" minHeight="0.0" minWidth="0.0" prefHeight="478.0" prefWidth="1034.0">
-            <Label fx:id="firstNameLabel" layoutX="477.0" layoutY="33.0" text="FirstName"/>
-            <TextField fx:id="firstNameTextField" editable="false" layoutX="536.0" layoutY="29.0" prefHeight="26.0"
-                       prefWidth="111.0"/>
-            <Label fx:id="employeeIdLabel" layoutX="346.0" layoutY="33.0" text="EmployeeId"/>
-            <TextField fx:id="idText" editable="false" layoutX="415.0" layoutY="29.0" prefHeight="26.0"
-                       prefWidth="54.0"/>
-            <Label fx:id="lastNameLabel" layoutX="657.0" layoutY="32.0" text="LastName"/>
-            <TextField fx:id="lastNameTextField" editable="false" layoutX="717.0" layoutY="28.0" prefHeight="26.0"
-                       prefWidth="146.0"/>
-            <Label fx:id="birthDateLabel" layoutX="871.0" layoutY="33.0" text="BirthDate"/>
-            <TextField fx:id="birthTextField" editable="false" layoutX="947.0" layoutY="31.0"/>
-            <Button fx:id="exitButton" layoutX="1202.0" layoutY="28.0" mnemonicParsing="false"
-                    onAction="#exitButtonClick" text="Exit"/>
+            <Label fx:id="firstNameLabel" layoutX="477.0" layoutY="33.0" text="FirstName" />
+            <TextField fx:id="firstNameTextField" editable="false" layoutX="536.0" layoutY="29.0" prefHeight="26.0" prefWidth="111.0" />
+            <Label fx:id="employeeIdLabel" layoutX="346.0" layoutY="33.0" text="EmployeeId" />
+            <TextField fx:id="idText" editable="false" layoutX="415.0" layoutY="29.0" prefHeight="26.0" prefWidth="54.0" />
+            <Label fx:id="lastNameLabel" layoutX="657.0" layoutY="32.0" text="LastName" />
+            <TextField fx:id="lastNameTextField" editable="false" layoutX="717.0" layoutY="28.0" prefHeight="26.0" prefWidth="146.0" />
+            <Label fx:id="birthDateLabel" layoutX="871.0" layoutY="33.0" text="BirthDate" />
+            <TextField fx:id="birthTextField" editable="false" layoutX="947.0" layoutY="31.0" />
+            <Button fx:id="exitButton" layoutX="1202.0" layoutY="28.0" mnemonicParsing="false" onAction="#exitButtonClick" text="Exit" />
+         <Label fx:id="labelTest" layoutX="129.0" layoutY="35.0" text="Label" />
         </AnchorPane>
-        <SplitPane dividerPositions="0.2179152148664344, 0.630226480836237" prefHeight="160.0" prefWidth="200.0">
+        <SplitPane dividerPositions="0.2179, 0.6302" prefHeight="160.0" prefWidth="200.0">
             <AnchorPane fx:id="anchorButtons" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                <VBox fx:id="buttonsVBox" layoutX="52.0" layoutY="122.0" prefHeight="366.0" prefWidth="194.0"
-                      spacing="25.0">
-                    <Button fx:id="viewCustomersButton" mnemonicParsing="false" onAction="#viewCustomersButtonClick"
-                            prefHeight="35.0" prefWidth="210.0" text="View customers"/>
-                    <Button fx:id="viewCategoriesButton" mnemonicParsing="false"
-                            onAction="#viewCategoriesButtonClick" prefHeight="35.0" prefWidth="216.0"
-                            text="View categories"/>
-                    <Button fx:id="viewProductsButton" mnemonicParsing="false" onAction="#viewProductsButton"
-                            prefHeight="35.0" prefWidth="235.0" text="View products"/>
-                    <Button fx:id="viewShippersButton" mnemonicParsing="false" onAction="#viewShippersButton"
-                            prefHeight="35.0" prefWidth="204.0" text="View shippers"/>
-                    <Button fx:id="viewSuppliersButton" mnemonicParsing="false" onAction="#viewSuppliersButton"
-                            prefHeight="35.0" prefWidth="198.0" text="View suppliers"/>
-                    <Button fx:id="viewOrdersButton" mnemonicParsing="false" onAction="#viewOrdersButton"
-                            prefHeight="35.0" prefWidth="198.0" text="View orders"/>
+                <VBox fx:id="buttonsVBox" layoutX="52.0" layoutY="122.0" prefHeight="366.0" prefWidth="194.0" spacing="25.0">
+                    <Button fx:id="viewCustomersButton" mnemonicParsing="false" onAction="#viewCustomersButtonClick" prefHeight="35.0" prefWidth="210.0" text="View customers" />
+                    <Button fx:id="viewCategoriesButton" mnemonicParsing="false" onAction="#viewCategoriesButtonClick" prefHeight="35.0" prefWidth="216.0" text="View categories" />
+                    <Button fx:id="viewProductsButton" mnemonicParsing="false" onAction="#viewProductsButton" prefHeight="35.0" prefWidth="235.0" text="View products" />
+                    <Button fx:id="viewShippersButton" mnemonicParsing="false" onAction="#viewShippersButton" prefHeight="35.0" prefWidth="204.0" text="View shippers" />
+                    <Button fx:id="viewSuppliersButton" mnemonicParsing="false" onAction="#viewSuppliersButton" prefHeight="35.0" prefWidth="198.0" text="View suppliers" />
+                    <Button fx:id="viewOrdersButton" mnemonicParsing="false" onAction="#viewOrdersButton" prefHeight="35.0" prefWidth="198.0" text="View orders" />
                 </VBox>
             </AnchorPane>
             <AnchorPane fx:id="anchorTable" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                <VBox fx:id="mainVBox" layoutX="15.0" layoutY="15.0" prefHeight="614.0" prefWidth="529.0"
-                      spacing="10.0"/>
+                <VBox fx:id="mainVBox" layoutX="15.0" layoutY="15.0" prefHeight="614.0" prefWidth="529.0" spacing="10.0" />
             </AnchorPane>
             <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0">
                 <AnchorPane fx:id="anchorAdd" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                    <VBox fx:id="toolVBox" layoutX="16.0" layoutY="12.0" prefHeight="618.0" prefWidth="223.0"
-                          spacing="25.0"/>
+                    <VBox fx:id="toolVBox" layoutX="16.0" layoutY="12.0" prefHeight="618.0" prefWidth="223.0" spacing="25.0" />
                 </AnchorPane>
-                <AnchorPane fx:id="anchorDelete" minHeight="0.0" minWidth="0.0" prefHeight="160.0"
-                            prefWidth="100.0">
-                    <VBox layoutX="11.0" layoutY="9.0" prefHeight="619.0" prefWidth="230.0" spacing="25.0"/>
+                <AnchorPane fx:id="anchorDelete" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                    <VBox layoutX="11.0" layoutY="9.0" prefHeight="619.0" prefWidth="230.0" spacing="25.0" />
                 </AnchorPane>
             </SplitPane>
         </SplitPane>

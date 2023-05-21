@@ -28,4 +28,18 @@ public class Supplier {
         Phone = phone;
         PostalCode = postalCode;
     }
+
+    @Override
+    public String toString() {
+        return "(" +
+                SupplierID + ", " +
+                "'" + SupplierName + "', " +
+                "'" + ContactName + "', " +
+                "'" + Address + "', " +
+                "'" + City + "', " +
+                "'" + Country + "', " +
+                "'" + Phone + "', " +
+                "'" + PostalCode + "'" +
+                ")";
+    }
 }

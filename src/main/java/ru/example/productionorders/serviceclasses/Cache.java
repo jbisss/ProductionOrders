@@ -24,6 +24,7 @@ public class Cache {
     private Integer productMaxId;
     private Integer shipperMaxId;
     private Integer categoryMaxId;
+    private Integer supplierMaxId;
 
     public void initCache() {
         AnnotationConfigApplicationContext context = ApplicationContextSingleton.getContext();
@@ -33,5 +34,6 @@ public class Cache {
         productMaxId = cacheRepository.getMaxProductId();
         shipperMaxId = cacheRepository.getMaxShipperId();
         categoryMaxId = cacheRepository.getMaxCategoryId();
+        supplierMaxId = cacheRepository.getMaxSupplierId();
     }
 }
