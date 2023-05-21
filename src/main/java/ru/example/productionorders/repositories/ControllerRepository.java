@@ -91,6 +91,7 @@ public class ControllerRepository {
         } catch (SQLException e) {
             log.error("Statement failed!!!");
         }
+        cache.getCategorieMap().put(transferCategory.getCategoryName(), transferCategory);
     }
 
     public void deleteCategoryFromDb(int id) {
@@ -102,6 +103,7 @@ public class ControllerRepository {
         } catch (SQLException e) {
             log.error("Statement failed!!!");
         }
+        cache.getCategorieMap().remove(transferCategory.getCategoryName());
     }
 
     public void addSupplierToDb() {
@@ -115,5 +117,6 @@ public class ControllerRepository {
         } catch (SQLException e) {
             log.error("Statement failed!!!");
         }
+        cache.getSupplierMap().put(transferSupplier.getSupplierName(), transferSupplier);
     }
 }
