@@ -9,6 +9,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import ru.example.productionorders.classes.RandomCategorie;
+import ru.example.productionorders.classes.RandomOrder;
 import ru.example.productionorders.dao.*;
 import ru.example.productionorders.configuration.ApplicationContextSingleton;
 import ru.example.productionorders.repositories.ControllerRepository;
@@ -24,6 +26,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -55,6 +58,8 @@ public class MainController {
     public AnchorPane anchorAdd;
     public AnchorPane anchorDelete;
     public Label labelTest;
+    public ScrollPane ordersGeneratorScroll;
+    public VBox orderGeneratorVBox;
     private AnnotationConfigApplicationContext context;
     private Connection connection;
 
@@ -69,16 +74,28 @@ public class MainController {
         birthTextField.setText(currentEmployee.getBirthDate());
 
         Timer timer = new Timer();
-        final int[] i = {0};
         final OrderRandomizer orderRandomizer = context.getBean(OrderRandomizer.class);
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    labelTest.setText(orderRandomizer.generateOrder().getCustomer().getCustomerName());
-
+                    RandomOrder randomOrder = orderRandomizer.generateOrder();
+                    TreeItem<String> customerNameTree = new TreeItem<>(randomOrder.getCustomer().getCustomerName());
+                    List<TreeItem<String>> categoriesNameTree = new ArrayList<>();
+                    for(RandomCategorie categorie : randomOrder.getCategorieList()) {
+                        TreeItem<String> categorieTreeItem = new TreeItem<>(categorie.getCategorie().getCategoryName());
+                        List<TreeItem<String>> productsNameTree = new ArrayList<>();
+                        categoriesNameTree.add(categorieTreeItem);
+                        for(Product product : categorie.getProductList()) {
+                            TreeItem<String> productTreeItem = new TreeItem<>(product.getProductName());
+                            productsNameTree.add(productTreeItem);
+                        }
+                        categorieTreeItem.getChildren().addAll(productsNameTree);
+                    }
+                    customerNameTree.getChildren().addAll(categoriesNameTree);
+                    TreeView<String> orderTree = new TreeView<>(customerNameTree);
+                    orderGeneratorVBox.getChildren().add(orderTree);
                 });
-                i[0]++;
             }
         }, 0, 10000);
     }
