@@ -1,6 +1,6 @@
 .vbox-style {
-    -fx-border-color: #00BFFF;
-    -fx-border-width: 3px;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-background-color: #FFA07A;
     -fx-background-radius: 10px;
@@ -70,7 +70,7 @@
     -fx-font-family: "Book Antiqua";
     -fx-text-fill: white;
     -fx-background-color: #006400;
-    -fx-border-color: #00BFFF;
+    -fx-border-color: #000000;
     -fx-border-width: 2px;
     -fx-border-radius: 5px;
     -fx-background-radius: 7px;
@@ -80,7 +80,7 @@
     -fx-font-family: "Book Antiqua";
     -fx-text-fill: black;
     -fx-background-color: #006400;
-    -fx-border-color: #00BFFF;
+    -fx-border-color: #000000;
     -fx-border-width: 2px;
     -fx-border-radius: 5px;
     -fx-background-radius: 7px;
@@ -90,4 +90,36 @@
     -fx-background-color: linear-gradient(#3CB371, #4682B4); /* Нелинейный градиентный фон */
     -fx-border-width: 2px;
     -fx-border-color: black;
+}
+
+.scroll-pane {
+    -fx-background-color: linear-gradient(#3CB371, #4682B4); /* Нелинейный градиентный фон */
+    -fx-border-width: 2px;
+    -fx-border-color: black;
+}
+
+.tree-view {
+    -fx-font-family: "Book Antiqua";
+    -fx-text-fill: white;
+    -fx-background-color: #006400;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 7px;
+}
+
+.tree-cell {
+    -fx-font-family: "Book Antiqua";
+    -fx-text-fill: white;
+    -fx-background-color: #006400;
+}
+
+.custom-scroll-pane .scroll-bar:horizontal,
+.custom-scroll-pane .scroll-bar:vertical {
+    -fx-background-color: linear-gradient(#3CB371, #4682B4); /* Цвет фона ползунков */
+}
+
+.custom-scroll-pane .scroll-bar:horizontal .thumb,
+.custom-scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: linear-gradient(#FFD700, #FFA07A); /* Цвет ползунков */
 }

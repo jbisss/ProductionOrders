@@ -3,8 +3,11 @@ package ru.example.productionorders.controllers;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +28,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 @Slf4j
 public class MainController {
@@ -60,6 +60,7 @@ public class MainController {
     public Label labelTest;
     public ScrollPane ordersGeneratorScroll;
     public VBox orderGeneratorVBox;
+    public VBox logVBox;
     private AnnotationConfigApplicationContext context;
     private Connection connection;
 
@@ -80,39 +81,56 @@ public class MainController {
             public void run() {
                 Platform.runLater(() -> {
                     RandomOrder randomOrder = orderRandomizer.generateOrder();
-                    TreeItem<String> customerNameTree = new TreeItem<>(randomOrder.getCustomer().getCustomerName());
-                    List<TreeItem<String>> categoriesNameTree = new ArrayList<>();
-                    for(RandomCategorie categorie : randomOrder.getCategorieList()) {
-                        TreeItem<String> categorieTreeItem = new TreeItem<>(categorie.getCategorie().getCategoryName());
-                        List<TreeItem<String>> productsNameTree = new ArrayList<>();
-                        categoriesNameTree.add(categorieTreeItem);
-                        for(Product product : categorie.getProductList()) {
-                            TreeItem<String> productTreeItem = new TreeItem<>(product.getProductName());
-                            productsNameTree.add(productTreeItem);
+                    TreeItem<String> customerNameTreeItem = new TreeItem<>("Customer: " + randomOrder.getCustomer().getCustomerName());
+                    List<TreeItem<String>> categoriesNameTreeItems = new ArrayList<>();
+
+                    for (RandomCategorie randomCategorie : randomOrder.getCategorieList()) {
+                        TreeItem<String> categorieTreeItem = new TreeItem<>("Category: " + randomCategorie.getCategorie().getCategoryName());
+                        List<TreeItem<String>> productsNameTreeItems = new ArrayList<>();
+                        categoriesNameTreeItems.add(categorieTreeItem);
+                        for (Product product : randomCategorie.getProductList()) {
+                            TreeItem<String> productNameTreeItem = new TreeItem<>("Product: " + product.getProductName());
+                            productsNameTreeItems.add(productNameTreeItem);
                         }
-                        categorieTreeItem.getChildren().addAll(productsNameTree);
+                        categorieTreeItem.getChildren().addAll(productsNameTreeItems);
                     }
-                    customerNameTree.getChildren().addAll(categoriesNameTree);
-                    TreeView<String> orderTree = new TreeView<>(customerNameTree);
-                    orderGeneratorVBox.getChildren().add(orderTree);
+
+                    customerNameTreeItem.getChildren().addAll(categoriesNameTreeItems);
+                    TreeView<String> orderTreeView = new TreeView<>(customerNameTreeItem);
+                    orderTreeView.setPrefHeight(150);
+                    orderTreeView.setMinHeight(150);
+
+                    VBox bufferVBox = new VBox();
+                    bufferVBox.getChildren().add(orderTreeView);
+                    Button reserveOrder = new Button("Reserve order");
+                    bufferVBox.getChildren().add(reserveOrder);
+                    bufferVBox.getStyleClass().add("vbox-style");
+
+                    orderGeneratorVBox.getChildren().add(bufferVBox);
                 });
             }
-        }, 0, 10000);
+        }, 0, 30000);
     }
 
     private void setStyles() {
         String vBoxStyleClass = "vbox-style";
         String rootStyleClass = "root";
         String anchorStyleClass = "anchor-style";
+        String scrollStyle = "custom-scroll-pane";
         root.getStyleClass().add(rootStyleClass);
         mainVBox.getStyleClass().add(vBoxStyleClass);
         toolVBox.getStyleClass().add(vBoxStyleClass);
         buttonsVBox.getStyleClass().add(vBoxStyleClass);
+        orderGeneratorVBox.getStyleClass().add(vBoxStyleClass);
+        logVBox.getStyleClass().add(vBoxStyleClass);
+
         anchorAdd.getStyleClass().add(anchorStyleClass);
         anchorButtons.getStyleClass().add(anchorStyleClass);
         anchorTable.getStyleClass().add(anchorStyleClass);
         anchorInfo.getStyleClass().add(anchorStyleClass);
         anchorDelete.getStyleClass().add(anchorStyleClass);
+
+        ordersGeneratorScroll.getStyleClass().add(scrollStyle);
     }
 
     public void exitButtonClick() {
@@ -122,6 +140,12 @@ public class MainController {
     public void viewCustomersButtonClick() {
         mainVBox.getChildren().clear();
         toolVBox.getChildren().clear();
+        Image gifImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("travolta.gif")));
+        ImageView imageView = new ImageView(gifImage);
+        imageView.setFitWidth(195);
+        imageView.setFitHeight(110);
+        toolVBox.getChildren().add(imageView);
+        toolVBox.setAlignment(Pos.CENTER);
         createTable(Customer.class);
     }
 
@@ -144,6 +168,12 @@ public class MainController {
     public void viewOrdersButton() {
         mainVBox.getChildren().clear();
         toolVBox.getChildren().clear();
+        Image gifImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("travolta.gif")));
+        ImageView imageView = new ImageView(gifImage);
+        imageView.setFitWidth(195);
+        imageView.setFitHeight(110);
+        toolVBox.getChildren().add(imageView);
+        toolVBox.setAlignment(Pos.CENTER);
         createTable(Order.class);
         createTable(OrderDetail.class);
     }
@@ -241,7 +271,7 @@ public class MainController {
         // --- Add category button EVENT
 
         Label labelCategoryId = new Label("Enter category id to delete:");
-        TextField textFieldCategoryIdToDelete  = new TextField();
+        TextField textFieldCategoryIdToDelete = new TextField();
 
         // --- Delete category button EVENT
         Button buttonDeleteCategory = new Button("Delete");
@@ -276,13 +306,13 @@ public class MainController {
         ComboBox<String> supplierChoice = new ComboBox<>();
         supplierChoice.setPromptText("Choose supplier");
         supplierChoice.setPrefWidth(200);
-        for(String supplier : cache.getSupplierMap().keySet()) {
+        for (String supplier : cache.getSupplierMap().keySet()) {
             supplierChoice.getItems().add(cache.getSupplierMap().get(supplier).getSupplierName());
         }
         ComboBox<String> categoryChoice = new ComboBox<>();
         categoryChoice.setPromptText("Choose category");
         categoryChoice.setPrefWidth(200);
-        for(String categorie : cache.getCategorieMap().keySet()) {
+        for (String categorie : cache.getCategorieMap().keySet()) {
             categoryChoice.getItems().add(cache.getCategorieMap().get(categorie).getCategoryName());
         }
         Label unitNameLabel = new Label("Enter unit: ");
@@ -426,22 +456,22 @@ public class MainController {
 
     private <T> void createTable(Class<T> currentClass) {
         String selectQuery = "select * from \"" + currentClass.getSimpleName() + "s\";";
-        if(currentClass.getSimpleName().equals("Order")) {
+        if (currentClass.getSimpleName().equals("Order")) {
             selectQuery = "select * from \"Orders\" o join \"OrderDetails\" od " +
                     "on o.\"OrderID\" = od.\"OrderID\" where \"EmployeeID\" = " + context.getBean(Employee.class).getEmployeeId() + ";";
         }
-        if(currentClass.getSimpleName().equals("OrderDetail")) {
+        if (currentClass.getSimpleName().equals("OrderDetail")) {
             selectQuery = "select \"OrderDetailsID\", od.\"OrderID\", \"ProductID\", \"Quantity\" from \"Orders\" o join \"OrderDetails\" od " +
                     "on o.\"OrderID\" = od.\"OrderID\" where \"EmployeeID\" = " + context.getBean(Employee.class).getEmployeeId() + ";";
         }
         Field[] fields = currentClass.getDeclaredFields();
         ArrayList<String> fieldsName = new ArrayList<>();
-        for(Field field : fields) {
+        for (Field field : fields) {
             fieldsName.add(field.getName());
         }
         TableView<T> tableView = new TableView<>();
         tableView.getStyleClass().add("table-view");
-        for(String fieldName : fieldsName) {
+        for (String fieldName : fieldsName) {
             TableColumn<T, String> newColumn = new TableColumn<>(fieldName);
             newColumn.setCellValueFactory(new PropertyValueFactory<>(fieldName));
             tableView.getColumns().add(newColumn);
@@ -457,7 +487,7 @@ public class MainController {
             rs = statement.executeQuery(selectQuery);
             while (rs.next()) {
                 T item = currentClass.getDeclaredConstructor().newInstance();
-                for(int i = 0; i < fieldsName.size(); i++) {
+                for (int i = 0; i < fieldsName.size(); i++) {
                     Field field = item.getClass().getDeclaredField(fieldsName.get(i));
                     field.setAccessible(true);
                     field.set(item, rs.getString(i + 1));
@@ -465,8 +495,9 @@ public class MainController {
                 tableView.getItems().add(item);
                 effectedRows++;
             }
-        } catch (SQLException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchFieldException e) {
-           log.error("Creating table failure!", e);
+        } catch (SQLException | NoSuchMethodException | IllegalAccessException | InstantiationException |
+                 InvocationTargetException | NoSuchFieldException e) {
+            log.error("Creating table failure!", e);
         }
         Label labelInfoRows = new Label("Effected rows: " + effectedRows);
         mainVBox.getChildren().add(tableView);

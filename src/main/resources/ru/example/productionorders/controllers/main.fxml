@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="root" prefHeight="744.0" prefWidth="1391.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.example.productionorders.controllers.MainController">
-    <SplitPane dividerPositions="0.10136612021857923" layoutX="5.0" layoutY="7.0" orientation="VERTICAL" prefHeight="733.0" prefWidth="1378.0">
+    <SplitPane dividerPositions="0.09453551912568305" layoutX="5.0" layoutY="7.0" orientation="VERTICAL" prefHeight="733.0" prefWidth="1378.0">
         <AnchorPane fx:id="anchorInfo" minHeight="0.0" minWidth="0.0" prefHeight="478.0" prefWidth="1034.0">
             <Label fx:id="firstNameLabel" layoutX="477.0" layoutY="33.0" text="FirstName" />
             <TextField fx:id="firstNameTextField" editable="false" layoutX="536.0" layoutY="29.0" prefHeight="26.0" prefWidth="111.0" />
@@ -21,10 +21,10 @@
             <TextField fx:id="birthTextField" editable="false" layoutX="947.0" layoutY="31.0" />
             <Button fx:id="exitButton" layoutX="1202.0" layoutY="28.0" mnemonicParsing="false" onAction="#exitButtonClick" text="Exit" />
          <Label fx:id="labelTest" layoutX="129.0" layoutY="35.0" text="Label" />
-         <ScrollPane fx:id="ordersGeneratorScroll" layoutX="14.0" layoutY="83.0" prefHeight="495.0" prefWidth="330.0">
-            <content>
-               <VBox fx:id="orderGeneratorVBox" prefHeight="491.0" prefWidth="327.0" />
-            </content></ScrollPane>
+            <ScrollPane fx:id="ordersGeneratorScroll" layoutX="14.0" layoutY="83.0" prefHeight="495.0"
+                        prefWidth="358.0">
+                <VBox fx:id="orderGeneratorVBox" prefHeight="510.0" prefWidth="337.0"/>
+            </ScrollPane>
         </AnchorPane>
         <SplitPane dividerPositions="0.2179, 0.6302" prefHeight="160.0" prefWidth="200.0">
             <AnchorPane fx:id="anchorButtons" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -45,7 +45,7 @@
                     <VBox fx:id="toolVBox" layoutX="16.0" layoutY="12.0" prefHeight="618.0" prefWidth="223.0" spacing="25.0" />
                 </AnchorPane>
                 <AnchorPane fx:id="anchorDelete" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                    <VBox layoutX="11.0" layoutY="9.0" prefHeight="619.0" prefWidth="230.0" spacing="25.0" />
+                    <VBox fx:id="logVBox" layoutX="11.0" layoutY="9.0" prefHeight="638.0" prefWidth="230.0" spacing="25.0" />
                 </AnchorPane>
             </SplitPane>
         </SplitPane>
