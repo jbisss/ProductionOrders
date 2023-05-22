@@ -2,10 +2,10 @@ package ru.example.productionorders.repositories;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import ru.example.productionorders.classes.Categorie;
-import ru.example.productionorders.classes.Product;
-import ru.example.productionorders.classes.Shipper;
-import ru.example.productionorders.classes.Supplier;
+import ru.example.productionorders.dao.Categorie;
+import ru.example.productionorders.dao.Product;
+import ru.example.productionorders.dao.Shipper;
+import ru.example.productionorders.dao.Supplier;
 import ru.example.productionorders.serviceclasses.Cache;
 import ru.example.productionorders.serviceclasses.ConnectionCredentials;
 

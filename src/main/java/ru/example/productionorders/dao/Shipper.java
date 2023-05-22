@@ -1,4 +1,4 @@
-package ru.example.productionorders.classes;
+package ru.example.productionorders.dao;
 
 import lombok.Getter;
 import lombok.Setter;

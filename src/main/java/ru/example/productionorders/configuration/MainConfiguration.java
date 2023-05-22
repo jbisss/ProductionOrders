@@ -3,10 +3,10 @@ package ru.example.productionorders.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import ru.example.productionorders.classes.Categorie;
-import ru.example.productionorders.classes.Product;
-import ru.example.productionorders.classes.Shipper;
-import ru.example.productionorders.classes.Supplier;
+import ru.example.productionorders.dao.Categorie;
+import ru.example.productionorders.dao.Product;
+import ru.example.productionorders.dao.Shipper;
+import ru.example.productionorders.dao.Supplier;
 
 @Configuration
 @ComponentScan(basePackages = {"ru.example.productionorders"})

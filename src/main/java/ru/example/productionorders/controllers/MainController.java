@@ -9,11 +9,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import ru.example.productionorders.classes.*;
+import ru.example.productionorders.dao.*;
 import ru.example.productionorders.configuration.ApplicationContextSingleton;
 import ru.example.productionorders.repositories.ControllerRepository;
 import ru.example.productionorders.serviceclasses.Cache;
 import ru.example.productionorders.serviceclasses.ConnectionCredentials;
+import ru.example.productionorders.serviceclasses.OrderRandomizer;
 import ru.example.productionorders.serviceclasses.WindowSwitcher;
 
 import java.lang.reflect.Field;
@@ -69,10 +70,14 @@ public class MainController {
 
         Timer timer = new Timer();
         final int[] i = {0};
+        final OrderRandomizer orderRandomizer = context.getBean(OrderRandomizer.class);
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Platform.runLater(() -> labelTest.setText("Hi " + i[0]));
+                Platform.runLater(() -> {
+                    labelTest.setText(orderRandomizer.generateOrder().getCustomer().getCustomerName());
+
+                });
                 i[0]++;
             }
         }, 0, 10000);
@@ -242,6 +247,11 @@ public class MainController {
                 textAreaCategoryDescription, buttonAddCategory, labelCategoryId, textFieldCategoryIdToDelete, buttonDeleteCategory);
     }
 
+    /**
+     * ПЕРЕСМОТРЕТЬ КЭШ - КОНЦЕПЦИЮ
+     * При каждой конфигурации формировать кэш, а не использовать его постоянно
+     * на всё время работы приложения
+     */
     private void configureProductClick() {
         Cache cache = context.getBean(Cache.class);
         Label productNameLabel = new Label("Enter product name: ");

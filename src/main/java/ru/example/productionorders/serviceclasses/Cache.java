@@ -5,8 +5,8 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
-import ru.example.productionorders.classes.Categorie;
-import ru.example.productionorders.classes.Supplier;
+import ru.example.productionorders.dao.Categorie;
+import ru.example.productionorders.dao.Supplier;
 import ru.example.productionorders.configuration.ApplicationContextSingleton;
 import ru.example.productionorders.repositories.CacheRepository;
 

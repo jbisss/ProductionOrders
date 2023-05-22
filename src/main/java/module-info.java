@@ -13,7 +13,8 @@ open module ru.example.productionorders {
 
     exports ru.example.productionorders.controllers;
     exports ru.example.productionorders;
-    exports ru.example.productionorders.classes;
+    exports ru.example.productionorders.dao;
     exports ru.example.productionorders.repositories;
     exports ru.example.productionorders.serviceclasses;
+    exports ru.example.productionorders.classes;
 }

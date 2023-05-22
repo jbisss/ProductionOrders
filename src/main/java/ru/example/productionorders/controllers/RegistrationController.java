@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
-import ru.example.productionorders.classes.Employee;
+import ru.example.productionorders.dao.Employee;
 import ru.example.productionorders.configuration.ApplicationContextSingleton;
 import ru.example.productionorders.serviceclasses.ConnectionCredentials;
 import ru.example.productionorders.serviceclasses.WindowSwitcher;
