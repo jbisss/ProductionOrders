@@ -61,6 +61,8 @@ public class MainController {
     public ScrollPane ordersGeneratorScroll;
     public VBox orderGeneratorVBox;
     public VBox logVBox;
+    public VBox doOrderVBox;
+    public VBox shipperStatVBox;
     private AnnotationConfigApplicationContext context;
     private Connection connection;
 
@@ -74,13 +76,18 @@ public class MainController {
         lastNameTextField.setText(currentEmployee.getLastName());
         birthTextField.setText(currentEmployee.getBirthDate());
 
+        setUpShipperLoad();
+
         Timer timer = new Timer();
         final OrderRandomizer orderRandomizer = context.getBean(OrderRandomizer.class);
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    RandomOrder randomOrder = orderRandomizer.generateOrder();
+                    RandomOrder randomOrder = null;
+                    while (randomOrder == null) {
+                        randomOrder = orderRandomizer.generateOrder();
+                    }
                     TreeItem<String> customerNameTreeItem = new TreeItem<>("Customer: " + randomOrder.getCustomer().getCustomerName());
                     List<TreeItem<String>> categoriesNameTreeItems = new ArrayList<>();
 
@@ -102,8 +109,19 @@ public class MainController {
 
                     VBox bufferVBox = new VBox();
                     bufferVBox.getChildren().add(orderTreeView);
-                    Button reserveOrder = new Button("Reserve order");
-                    bufferVBox.getChildren().add(reserveOrder);
+                    // --- Reserve button EVENT
+                    Button reserveOrderButton = new Button("Reserve order");
+                    EventHandler<ActionEvent> reserveButtonClick = actionEvent -> {
+                        bufferVBox.getChildren().remove(reserveOrderButton);
+                        orderGeneratorVBox.getChildren().remove(bufferVBox);
+                        Label labelSupplier = new Label("Choose supplier");
+                        bufferVBox.getChildren().add(labelSupplier);
+
+                        doOrderVBox.getChildren().add(bufferVBox);
+                    };
+                    reserveOrderButton.setOnAction(reserveButtonClick);
+                    // --- Reserve button EVENT
+                    bufferVBox.getChildren().add(reserveOrderButton);
                     bufferVBox.getStyleClass().add("vbox-style");
 
                     orderGeneratorVBox.getChildren().add(bufferVBox);
@@ -452,6 +470,33 @@ public class MainController {
         // --- Delete shipper button EVENT
 
         toolVBox.getChildren().addAll(labelShipperIdDelete, textFieldShipperIdDelete, buttonDeleteShipper);
+    }
+
+    private void setUpShipperLoad() {
+        Map<Shipper, Integer> shipperLoad = context.getBean(ControllerRepository.class).getShipperLoad();
+        double totalOrders = 0;
+        for(Shipper shipper : shipperLoad.keySet()) {
+            totalOrders += shipperLoad.get(shipper);
+        }
+        for (Shipper shipper : shipperLoad.keySet()) {
+            VBox bufferedVBox = new VBox();
+            Label labelShipperId = new Label("Shipper id:");
+            TextField textFieldShipperId = new TextField(shipper.getShipperID());
+            Label labelShipperName = new Label("Shipper name:");
+            TextField textFieldShipperName = new TextField(shipper.getShipperName());
+            Label labelShipperPhone = new Label("Shipper phone");
+            TextField textFieldShipperPhone = new TextField(shipper.getPhone());
+            double percentage = shipperLoad.get(shipper) / totalOrders * 100;
+            String stringPercentage = String.format("%.2f", percentage) + "%";
+            Label labelLoadPercentage = new Label("Load percentage:");
+            TextField textFieldLoadPercentage = new TextField(stringPercentage);
+            bufferedVBox.getChildren().addAll(labelShipperId, textFieldShipperId,
+                    labelShipperName, textFieldShipperName,
+                    labelShipperPhone, textFieldShipperPhone,
+                    labelLoadPercentage, textFieldLoadPercentage);
+            bufferedVBox.getStyleClass().add("vbox-style");
+            shipperStatVBox.getChildren().add(bufferedVBox);
+        }
     }
 
     private <T> void createTable(Class<T> currentClass) {

@@ -45,17 +45,19 @@ public class OrderRandomizer {
         for (RandomCategorie categorie : categories) {
             int id = Integer.parseInt(categorie.getCategorie().getCategoryID());
             List<Product> productList = randomizerRepository.getProductsByCategorie(id);
-            int randomProductCount = new Random().nextInt(5) + 1;
-            for (int i = 0; i < randomProductCount; i++) {
-                int randomProduct = new Random().nextInt(productList.size());
-                if(!categorie.getProductList().contains(productList.get(randomProduct))) {
-                    categorie.getProductList().add(productList.get(randomProduct));
+            if (productList.size() != 0) {
+                int randomProductCount = new Random().nextInt(5) + 1;
+                for (int i = 0; i < randomProductCount; i++) {
+                    int randomProduct = new Random().nextInt(productList.size());
+                    if (!categorie.getProductList().contains(productList.get(randomProduct))) {
+                        categorie.getProductList().add(productList.get(randomProduct));
+                    }
                 }
             }
         }
-
+        if (categories.size() == 0) {
+            return null;
+        }
         return new RandomOrder(customer, categories);
     }
-
-
 }

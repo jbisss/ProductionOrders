@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="root" prefHeight="744.0" prefWidth="1391.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.example.productionorders.controllers.MainController">
-    <SplitPane dividerPositions="0.09453551912568305" layoutX="5.0" layoutY="7.0" orientation="VERTICAL" prefHeight="733.0" prefWidth="1378.0">
+    <SplitPane dividerPositions="0.996174863387978" layoutX="5.0" layoutY="7.0" orientation="VERTICAL" prefHeight="733.0" prefWidth="1378.0">
         <AnchorPane fx:id="anchorInfo" minHeight="0.0" minWidth="0.0" prefHeight="478.0" prefWidth="1034.0">
             <Label fx:id="firstNameLabel" layoutX="477.0" layoutY="33.0" text="FirstName" />
             <TextField fx:id="firstNameTextField" editable="false" layoutX="536.0" layoutY="29.0" prefHeight="26.0" prefWidth="111.0" />
@@ -21,9 +21,12 @@
             <TextField fx:id="birthTextField" editable="false" layoutX="947.0" layoutY="31.0" />
             <Button fx:id="exitButton" layoutX="1202.0" layoutY="28.0" mnemonicParsing="false" onAction="#exitButtonClick" text="Exit" />
          <Label fx:id="labelTest" layoutX="129.0" layoutY="35.0" text="Label" />
-            <ScrollPane fx:id="ordersGeneratorScroll" layoutX="14.0" layoutY="83.0" prefHeight="495.0"
-                        prefWidth="358.0">
-                <VBox fx:id="orderGeneratorVBox" prefHeight="510.0" prefWidth="337.0"/>
+            <ScrollPane fx:id="ordersGeneratorScroll" layoutX="14.0" layoutY="83.0" prefHeight="638.0" prefWidth="358.0">
+                <VBox fx:id="orderGeneratorVBox" prefHeight="659.0" prefWidth="338.0" />
+            </ScrollPane>
+         <VBox fx:id="doOrderVBox" layoutX="390.0" layoutY="81.0" prefHeight="318.0" prefWidth="358.0" />
+            <ScrollPane layoutX="978.0" layoutY="81.0" prefHeight="318.0" prefWidth="385.0">
+                <VBox fx:id="shipperStatVBox" prefHeight="337.0" prefWidth="366.0"/>
             </ScrollPane>
         </AnchorPane>
         <SplitPane dividerPositions="0.2179, 0.6302" prefHeight="160.0" prefWidth="200.0">

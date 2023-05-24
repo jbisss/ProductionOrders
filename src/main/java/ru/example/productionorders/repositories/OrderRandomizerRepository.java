@@ -47,7 +47,7 @@ public class OrderRandomizerRepository {
 
     public List<Product> getProductsByCategorie(int id) {
         List<Product> products = new ArrayList<>();
-        String selectQuery = "SELECT * FROM public.\"Products\" WHERE \"ProductID\" = " + id + " ;";
+        String selectQuery = "SELECT * FROM public.\"Products\" WHERE \"CategoryID\" = " + id + " ;";
         Statement statement;
         ResultSet rs;
         try {

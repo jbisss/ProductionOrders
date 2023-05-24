@@ -10,8 +10,11 @@ import ru.example.productionorders.serviceclasses.Cache;
 import ru.example.productionorders.serviceclasses.ConnectionCredentials;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 @Repository
 @Slf4j
@@ -118,5 +121,35 @@ public class ControllerRepository {
             log.error("Statement failed!!!");
         }
         cache.getSupplierMap().put(transferSupplier.getSupplierName(), transferSupplier);
+    }
+
+    public Map<Shipper, Integer> getShipperLoad() {
+        Map<Shipper, Integer> shipperLoadResult = new HashMap<>();
+        String selectQuery = "select \"ShipperID\", COUNT(*) from \"Orders\"\n" +
+                " group by \"ShipperID\";";
+        log.info("Query started: " + selectQuery);
+        ResultSet rs_1;
+        try (Statement statement_1 = connection.createStatement()) {
+            rs_1 = statement_1.executeQuery(selectQuery);
+            while (rs_1.next()) {
+                String shipperId = rs_1.getString("ShipperID");
+                System.out.println(shipperId);
+                int count = Integer.parseInt(rs_1.getString("count"));
+                String selectShipper = "select * from \"Shippers\" where \"ShipperID\" = " + shipperId + ";";
+                Statement statement_2 = connection.createStatement();
+                ResultSet rs_2;
+                rs_2 = statement_2.executeQuery(selectShipper);
+                Shipper shipperToAdd = null;
+                while(rs_2.next()) {
+                    shipperToAdd = new Shipper(rs_2.getString("ShipperID"),
+                            rs_2.getString("ShipperName"),
+                            rs_2.getString("Phone"));
+                }
+                shipperLoadResult.put(shipperToAdd, count);
+            }
+        } catch (SQLException e) {
+            log.error("Statement failed!!!", e);
+        }
+        return shipperLoadResult;
     }
 }
