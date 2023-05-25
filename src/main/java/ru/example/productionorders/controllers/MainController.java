@@ -63,6 +63,7 @@ public class MainController {
     public VBox logVBox;
     public VBox doOrderVBox;
     public VBox shipperStatVBox;
+    public TextArea textAreaLogsBack;
     private AnnotationConfigApplicationContext context;
     private Connection connection;
 
@@ -131,6 +132,7 @@ public class MainController {
                             EventHandler<ActionEvent> buttonTakeOrderClick = actionEvent1 -> {
                                 doOrderVBox.getChildren().remove(bufferVBox);
                                 orderFlag[0] = true;
+                                textAreaLogsBack.setText(textAreaLogsBack.getText() + "\nOrder taken and added to DB!");
                             };
                             buttonTakeOrder.setOnAction(buttonTakeOrderClick);
                             bufferVBox.getChildren().add(buttonTakeOrder);
