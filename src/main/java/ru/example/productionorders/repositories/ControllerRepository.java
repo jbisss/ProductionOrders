@@ -133,7 +133,6 @@ public class ControllerRepository {
             rs_1 = statement_1.executeQuery(selectQuery);
             while (rs_1.next()) {
                 String shipperId = rs_1.getString("ShipperID");
-                System.out.println(shipperId);
                 int count = Integer.parseInt(rs_1.getString("count"));
                 String selectShipper = "select * from \"Shippers\" where \"ShipperID\" = " + shipperId + ";";
                 Statement statement_2 = connection.createStatement();

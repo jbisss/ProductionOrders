@@ -80,6 +80,7 @@ public class MainController {
 
         Timer timer = new Timer();
         final OrderRandomizer orderRandomizer = context.getBean(OrderRandomizer.class);
+        final boolean[] orderFlag = {true};
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -108,16 +109,37 @@ public class MainController {
                     orderTreeView.setMinHeight(150);
 
                     VBox bufferVBox = new VBox();
+                    bufferVBox.setSpacing(10);
                     bufferVBox.getChildren().add(orderTreeView);
                     // --- Reserve button EVENT
                     Button reserveOrderButton = new Button("Reserve order");
                     EventHandler<ActionEvent> reserveButtonClick = actionEvent -> {
-                        bufferVBox.getChildren().remove(reserveOrderButton);
-                        orderGeneratorVBox.getChildren().remove(bufferVBox);
-                        Label labelSupplier = new Label("Choose supplier");
-                        bufferVBox.getChildren().add(labelSupplier);
-
-                        doOrderVBox.getChildren().add(bufferVBox);
+                        if(orderFlag[0]) {
+                            bufferVBox.getChildren().remove(reserveOrderButton);
+                            orderGeneratorVBox.getChildren().remove(bufferVBox);
+                            Label labelShipper = new Label("Choose shipper");
+                            bufferVBox.getChildren().add(labelShipper);
+                            ComboBox<String> shipperChoice = new ComboBox<>();
+                            shipperChoice.setPromptText("Choose shipper");
+                            shipperChoice.setPrefWidth(200);
+                            Map<Shipper, Integer> shippers = context.getBean(ControllerRepository.class).getShipperLoad();
+                            List<String> shipperName = shippers.keySet().stream().map(Shipper::getShipperName).toList();
+                            shipperChoice.getItems().addAll(shipperName);
+                            bufferVBox.getChildren().add(shipperChoice);
+                            // --- Take order button EVENT
+                            Button buttonTakeOrder = new Button("Take order");
+                            EventHandler<ActionEvent> buttonTakeOrderClick = actionEvent1 -> {
+                                doOrderVBox.getChildren().remove(bufferVBox);
+                                orderFlag[0] = true;
+                            };
+                            buttonTakeOrder.setOnAction(buttonTakeOrderClick);
+                            bufferVBox.getChildren().add(buttonTakeOrder);
+                            // --- Take order button EVENT
+                            doOrderVBox.getChildren().add(bufferVBox);
+                            orderFlag[0] = false;
+                        } else {
+                            log.info("Can't reserve!");
+                        }
                     };
                     reserveOrderButton.setOnAction(reserveButtonClick);
                     // --- Reserve button EVENT
